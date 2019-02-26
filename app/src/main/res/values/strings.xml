@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">worker</string>
+    <string name="hint_name">new name</string>
+    <string name="hint_address">address</string>
+    <string name="hint_age">age</string>
+    <string name="hint_wage">wage</string>
+    <string name="hint_old_name">old name</string>
+    <string name="confirm">confirm</string>
+    <string name="add">add</string>
+    <string name="delete">delete</string>
+    <string name="query">query</string>
+    <string name="update">update</string>
+    <string name="not_known">result is null</string>
+    <string name="success">operate success</string>
+    <string name="failed">operate failed</string>
+</resources>
