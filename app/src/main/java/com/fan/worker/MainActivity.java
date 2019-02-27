@@ -1,6 +1,7 @@
 package com.fan.worker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.fan.worker.note.NoteActivity;
 
 
 /**
@@ -58,11 +61,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         confirm = findViewById(R.id.confirm);
         result = findViewById(R.id.result);
 
+        Button jump = findViewById(R.id.jump_note);
+
         confirm.setEnabled(false);
         setViewVisible(false, false, false);
         nameEt.addTextChangedListener(mWatcher);
         oldNameEt.addTextChangedListener(mWatcher);
-        setClickListener(insert, update, delete, query, confirm);
+        setClickListener(insert, update, delete, query, confirm,jump);
     }
 
     /**
@@ -111,6 +116,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.confirm:
                 execute();
+                break;
+            case R.id.jump_note:
+                Intent intent = new Intent(this, NoteActivity.class);
+                startActivity(intent);
                 break;
         }
     }

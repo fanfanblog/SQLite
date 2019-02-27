@@ -13,4 +13,12 @@
     <string name="not_known">result is null</string>
     <string name="success">operate success</string>
     <string name="failed">operate failed</string>
+
+    <string name="income">income</string>
+    <string name="expand">expand</string>
+    <string name="direct_title">income or expand</string>
+    <string name="hint_price">price</string>
+    <string name="hint_goods">goods</string>
+    <string name="hint_describe">say somethings</string>
+    <string name="jump_note">jump_to_note</string>
 </resources>

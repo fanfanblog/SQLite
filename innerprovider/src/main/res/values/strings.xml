@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">InnerProvider</string>
+
+    <string name="hint_price">price</string>
+    <string name="hint_goods">goods</string>
+    <string name="add_record">add a record</string>
+    <string name="query_record">query all record</string>
+    <string name="delete_record">delete record</string>
+    <string name="update_record">update record</string>
+</resources>

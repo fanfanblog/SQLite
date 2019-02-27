@@ -93,6 +93,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/confirm"
         android:text="@string/confirm"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/jump_note"
+        android:text="@string/jump_note"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -33,17 +33,17 @@ public class Utils {
         sToast.show();
     }
 
-    static boolean isEmpty(String str) {
+    public static boolean isEmpty(String str) {
         return str == null || str.length() < 1;
     }
 
-    static void logD(String msg) {
+    public static void logD(String msg) {
         if (DEBUG) {
             Log.d(TAG, msg);
         }
     }
 
-    static void logV(String msg) {
+    public static void logV(String msg) {
         if (VERBOSE) {
             Log.v(TAG, msg);
         }
