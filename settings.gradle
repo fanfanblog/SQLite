@@ -1,1 +1,1 @@
-include ':app', ':innerprovider'
+include ':app', ':innerprovider', ':collectiondemo', ':lib'
