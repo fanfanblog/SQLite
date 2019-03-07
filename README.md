@@ -12,4 +12,7 @@
 
 # lib java库代码
 
-1,提供java实现的各种自定义数据机构
+1,提供java实现的自定义数据机构ArrayList
+
+# lib java库，代码更新，
+新增java实现自定义的链表结构LinkedList

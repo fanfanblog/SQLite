@@ -1,13 +1,35 @@
 package com.fan.lib;
 
 import com.fan.lib.list.ArrayListCustom;
+import com.fan.lib.list.LinkedListCustom;
 
 public class myClass {
 
     public static void main(String[] args) {
 
         //test customArrayList
+//        testArray();
+        //test Linked
+        testLinked();
+    }
 
+
+    private static void testLinked(){
+        LinkedListCustom<String> linkedListCustom = new LinkedListCustom<>();
+
+        for (int i = 0; i < 30; i++) {
+            linkedListCustom.addLast("item " + i);
+        }
+
+        linkedListCustom.removeNode(16);
+        linkedListCustom.addNode(17, "add");
+
+        LinkedListCustom.LinkIterator linkIterator = linkedListCustom.linkIterator();
+        while(linkIterator.hasNext()) {
+            System.out.println(linkIterator.next());
+        }
+    }
+    private static void testArray(){
         ArrayListCustom<String> arrayListCustom = new ArrayListCustom<>(0);
         for (int i = 0; i < 50; i++) {
             arrayListCustom.addElement("element " + i);
@@ -21,8 +43,9 @@ public class myClass {
             System.out.println(str);
         }
         System.out.println(arrayListCustom.size());
-
     }
+
+
 }
 
 class Item {
