@@ -9,3 +9,6 @@
 
 # app 应用内note目录
 1,访问innerprovider提供的数据库
+
+#lib java库代码
+1,提供java实现的各种自定义数据机构
