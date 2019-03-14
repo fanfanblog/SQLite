@@ -72,10 +72,12 @@ public class LinkedListCustom<I extends Object> {
      * @param index
      * @return
      */
-     private Node node(int index) {
+    private Node node(int index) {
         ensureValid(index);
         Node temp;
-        if (index < size / 2) {
+        if (index == (size - 1)) {
+            temp = last;
+        } else if (index < size / 2) {
             temp = first;
             //属于前半部分，从前边儿开始查询
             for (int i = 0; i < index; i++) {
@@ -127,7 +129,7 @@ public class LinkedListCustom<I extends Object> {
         if (nextNode == null) {
             //当节点位于链表末尾时，
             last = preNode;
-        }else {
+        } else {
             nextNode.prev = preNode;
         }
         size--;
@@ -141,7 +143,7 @@ public class LinkedListCustom<I extends Object> {
      */
     public void setNode(int index, I item) {
         if (item == null) {
-            throw(new NullPointerException("item should not be null"));
+            throw (new NullPointerException("item should not be null"));
         }
         Node updataNode = node(index);
         updataNode.item = item;
@@ -157,40 +159,39 @@ public class LinkedListCustom<I extends Object> {
         }
     }
 
-    public LinkIterator linkIterator(){
+    public LinkIterator linkIterator() {
         return new LinkIterator();
     }
 
     public class LinkIterator {
 
         int cursor = 0;
-        LinkIterator(){
+
+        LinkIterator() {
 
         }
+
         public boolean hasPrevious() {
-            return node(cursor).prev != null;
+            return cursor > 0;
         }
 
-        public boolean hasNext(){
-            return node(cursor).next != null;
+        public boolean hasNext() {
+            return cursor < size;
         }
 
-        public Object previous(){
-            return node(cursor--).prev.item;
+        public Object previous() {
+            return node(--cursor).item;
         }
 
-        public Object next(){
-            return node(cursor++).next.item;
+        public Object next() {
+            return node(cursor++).item;
         }
     }
 }
 
 
-
-
 /**
  * 节点对象
- *
  */
 class Node {
     Object item;

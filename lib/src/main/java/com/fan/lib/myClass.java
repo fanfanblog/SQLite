@@ -2,6 +2,7 @@ package com.fan.lib;
 
 import com.fan.lib.list.ArrayListCustom;
 import com.fan.lib.list.LinkedListCustom;
+import com.fan.lib.tree.TreeNormal;
 
 public class myClass {
 
@@ -10,26 +11,32 @@ public class myClass {
         //test customArrayList
 //        testArray();
         //test Linked
-        testLinked();
+//        testLinked();
+        testNormalTree();
     }
 
 
-    private static void testLinked(){
+    private static void testLinked() {
         LinkedListCustom<String> linkedListCustom = new LinkedListCustom<>();
 
         for (int i = 0; i < 30; i++) {
             linkedListCustom.addLast("item " + i);
         }
-
-        linkedListCustom.removeNode(16);
-        linkedListCustom.addNode(17, "add");
+//
+//        linkedListCustom.removeNode(16);
+//        linkedListCustom.addNode(17, "add");
 
         LinkedListCustom.LinkIterator linkIterator = linkedListCustom.linkIterator();
-        while(linkIterator.hasNext()) {
+        while (linkIterator.hasNext()) {
             System.out.println(linkIterator.next());
         }
+
+        while (linkIterator.hasPrevious()) {
+            System.out.println(linkIterator.previous());
+        }
     }
-    private static void testArray(){
+
+    private static void testArray() {
         ArrayListCustom<String> arrayListCustom = new ArrayListCustom<>(0);
         for (int i = 0; i < 50; i++) {
             arrayListCustom.addElement("element " + i);
@@ -38,13 +45,29 @@ public class myClass {
         arrayListCustom.removeElement(30);
         arrayListCustom.setElement(10, "modify");
         ArrayListCustom.MyIterator myIterator = arrayListCustom.listIterator();
-        while(myIterator.hasNext()) {
+        while (myIterator.hasNext()) {
             String str = (String) myIterator.next();
             System.out.println(str);
         }
         System.out.println(arrayListCustom.size());
     }
 
+
+    private static void testNormalTree() {
+        TreeNormal<String, String> tree = new TreeNormal<>();
+
+        for (int i = 0; i < 20; i++) {
+            tree.put("key：" + i, "value:" + i);
+        }
+
+        System.out.println("size = " + tree.size());
+        tree.put("key：" + 2, "value:" + 5);
+
+        TreeNormal.TreeKeyIterator iterator = tree.treeIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
 
 }
 
