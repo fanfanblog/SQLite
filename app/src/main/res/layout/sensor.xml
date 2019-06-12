@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start Listener"
+        android:id="@+id/start"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop Listener"
+        android:id="@+id/stop"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:visibility="gone"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info"
+        android:id="@+id/info"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:visibility="gone"/>
+
+    <com.fan.worker.sensor.LineView
+        android:id="@+id/paint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

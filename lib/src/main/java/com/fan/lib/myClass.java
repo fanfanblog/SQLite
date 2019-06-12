@@ -2,6 +2,7 @@ package com.fan.lib;
 
 import com.fan.lib.list.ArrayListCustom;
 import com.fan.lib.list.LinkedListCustom;
+import com.fan.lib.tree.TreeBalance;
 import com.fan.lib.tree.TreeNormal;
 
 public class myClass {
@@ -12,7 +13,74 @@ public class myClass {
 //        testArray();
         //test Linked
 //        testLinked();
-        testNormalTree();
+//        testNormalTree();
+        testBalanceTree();
+//        int a = -127;
+//
+//        double pi_2 = (Math.PI)/180;
+//        float last = 88.951996f;
+//        float current = -87.961996f;
+//        float cur = (float) ((current * pi_2 )/ Math.cos(current * pi_2));
+//        System.out.print("current = ");
+//        System.out.println(current);
+//        System.out.print("Math.cos(current * pi_2) = ");
+//        System.out.println(Math.cos(current * pi_2));
+//        System.out.print("current / Math.cos(current * pi_2) = ");
+//        System.out.println(cur);
+//        System.out.println("********************");
+//
+//
+//        float lastR = (float) ((last * pi_2) / Math.cos(last * pi_2));
+//        System.out.print("last = ");
+//        System.out.println(last);
+//        System.out.print("Math.cos(last * pi_2) = ");
+//        System.out.println(Math.cos(last * pi_2));
+//        System.out.print("last / Math.cos(last * pi_2) = ");
+//        System.out.println(lastR);
+//        System.out.println("********************");
+//
+//        float offsetX = cur - lastR;
+//        System.out.print("offsetX = ");
+//        System.out.println(offsetX);
+//        System.out.print("offsetX * Math.cos(last * pi_2) = ");
+//        System.out.println(offsetX * Math.cos(current * pi_2));
+//        System.out.println("********************");
+//
+//        System.out.print("Math.cos((current - last) * pi_2) = ");
+//        System.out.println(Math.cos((current - last) * pi_2));
+//        System.out.print("(current - last) / (Math.cos((current - last) * pi_2)) = ");
+//        System.out.println((current - last) / (Math.cos((current - last) * pi_2)));
+//
+//        float result = (float) ((540 * Math.tan(89 * pi_2)) * (pi_2/Math.cos(last * pi_2)) * (1/Math.cos(pi_2))*(current - last));
+//        System.out.print("result = ");
+//        System.out.println(result);
+//        float R = (float) ((1080/2) / Math.tan(89 * pi_2));
+//        System.out.print("R = ");
+//        System.out.println(R);
+//
+//        last = -79.951996f;
+//        current = -78.961996f;
+//        result = (float) (R * (Math.tan(current * pi_2) - Math.tan(last * pi_2)));
+//        System.out.print("Math.tan(current * pi_2) = ");
+//        System.out.println(Math.tan(current * pi_2));
+//        System.out.print("Math.tan(last * pi_2) = ");
+//        System.out.println(Math.tan(last * pi_2));
+//        System.out.print("result = ");
+//        System.out.println(result);
+//
+//
+//        System.out.print("a  =");
+//        System.out.println(Math.tan(90 * pi_2));
+//
+//        float currentDegree = -59;
+//        float lastDegree  = 59;
+//        float last_multX = 59;
+//
+//        float offsetX_hh = (float) (((currentDegree - lastDegree) * (1080/60)) / Math.cos(last_multX * pi_2));
+//
+//        System.out.print("offsetX_hh  =");
+//        System.out.print(offsetX_hh);
+
     }
 
 
@@ -64,6 +132,23 @@ public class myClass {
         tree.put("key：" + 2, "value:" + 5);
 
         TreeNormal.TreeKeyIterator iterator = tree.treeIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    private static void testBalanceTree() {
+        TreeBalance<String, String> tree = new TreeBalance<>();
+
+        for (int i = 0; i < 20; i++) {
+            System.out.println("put key:" + i + ", value" + i);
+            tree.put("key：" + i, "value:" + i);
+        }
+
+        System.out.println("size = " + tree.size());
+//        tree.put("key：" + 2, "value:" + 5);
+
+        TreeBalance.TreeKeyIterator iterator = tree.treeIterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }

@@ -5,6 +5,11 @@ import java.util.Iterator;
 /**
  * Created by FanFan on 19-3-11.
  * 搜索微信公众号码农修仙儿（fanfan_code）
+ * 普通二叉树
+ * 性质
+ *   1，只有一个根节点
+ *   2，每个节点至多有两个子节点
+ *   3，遵循key的大小顺序，左子树<父<右子树
  */
 
 public class TreeNormal<K extends Object, V extends Object> {
@@ -226,6 +231,7 @@ public class TreeNormal<K extends Object, V extends Object> {
                 curNode = leftParent;
             } else {
 
+                //每个节点的下一个，首先找寻他的右子树，如果右子树是空，则找寻该节点位于哪个节点的左子树中
                 Node temp = curNode.right;
                 Node tempParent = null;
                 while (temp != null) {

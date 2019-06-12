@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">worker</string>
     <string name="hint_name">new name</string>
     <string name="hint_address">address</string>
@@ -21,4 +21,6 @@
     <string name="hint_goods">goods</string>
     <string name="hint_describe">say somethings</string>
     <string name="jump_note">jump_to_note</string>
+
+    <string name="info">"info:<xliff:g id="ap_name">%1$s</xliff:g>"</string>
 </resources>
