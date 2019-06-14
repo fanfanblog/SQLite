@@ -147,6 +147,9 @@ public class myClass {
 
         System.out.println("size = " + tree.size());
 //        tree.put("key：" + 2, "value:" + 5);
+        tree.remove("key：" + 16);
+        System.out.println("size = " + tree.size());
+
 
         TreeBalance.TreeKeyIterator iterator = tree.treeIterator();
         while (iterator.hasNext()) {

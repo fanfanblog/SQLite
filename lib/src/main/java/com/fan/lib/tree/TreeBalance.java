@@ -98,7 +98,7 @@ public class TreeBalance<K extends Object, V extends Object> {
 
             System.out.println("newNode: info :" + newNode.toString());
 
-            adjustTree(tempParent);
+            adjustTree();
         }
 
 
@@ -108,8 +108,8 @@ public class TreeBalance<K extends Object, V extends Object> {
     /**
      * 移除一个节点
      * 移除规则:
-     * 找到要移除的节点的右分支的最小值来代替该分支
-     * 如果该节点没有右分支,那么就用左分支代替,否则,就对该节点的parent进行对应的操作
+     * 找到要移除的节点的右分支的最小值来代替该节点
+     * 如果该节点没有右分支,那么就用左节点代替,否则,就对该节点的parent进行对应的操作
      * 节点移除之后需要调节height和level
      *
      * @param key
@@ -123,6 +123,7 @@ public class TreeBalance<K extends Object, V extends Object> {
         if (remNode == null) {
             return;
         }
+
         Node<K, V> remLeft = remNode.left;
         Node<K, V> remRight = remNode.right;
         Node<K, V> remParent = remNode.parent;
@@ -130,38 +131,74 @@ public class TreeBalance<K extends Object, V extends Object> {
         Node<K, V> minNode = minNodeOfRightTree(remNode);
 
         if (minNode != null) {
-            /*
-             * 右分之存在
+            /**
+             * 右分之存在,
+             * 此时minNode只含有右子树节点
+             * minNode的右子树所有节点会会上移，所以调整level--
+             * 1，调整minNode位置：minNode代替remNode的位置
+             * 2，调整minNode右子树的位置minNode的右子树作为minNode.parent的左子树
+             * 3，调整minNode右子树的level
+             * 4，调整从minNode所有parent的height
+             * 5，调整remNode的左右子树的parent
              */
             List<Node<K, V>> leftTree = iteratorTree(false, minNode);
             for (Node<K, V> node : leftTree) {
                 node.level--;
             }
 
-            //minNode的所有height要调节
+            //调整minNode的右子树
+            if (minNode != minNode.parent.right) {
+                /*
+                 * 表明minNode不是remNode的右节点
+                 * 调整minNode的parent和minNode的右子树
+                 */
+                minNode.parent.left = minNode.right;
+                minNode.parent.leftHeight = minNode.rightHeight;
+                if (minNode.right != null) {
+                    minNode.right.parent = minNode.parent;
+                }
 
-            minNode.left = remLeft;
-            minNode.parent = remParent;
-            if (remParent != null && (remNode == remParent.left)) {
-                remParent.left = minNode;
-            } else if (remParent != null && (remNode == remParent.right)) {
-                remParent.right = minNode;
-            } else {
-                root = minNode;
-            }
+                //节点有删减，所以需要调整height
+                adjustParentHeight(minNode.parent);
 
-            if (minNode != remRight) {
+                /*
+                 * 对于remRight.parent的赋值必须放在adjustParentHeight之后，
+                 * 否则对height的修改就会是死循环
+                 */
                 minNode.right = remRight;
-                remRight.parent = minNode;
+                if (remRight != null) {
+                    remRight.parent = minNode;
+                }
+
             }
+
+            /**
+             * 调整remNode的左子树,交给minNode
+             * 因为只是发生了节点的交换，所以不需要调整parent的height
+             */
+            minNode.left = remLeft;
+            minNode.leftHeight = remNode.leftHeight;
+            minNode.rightHeight = remNode.rightHeight;
             if (remLeft != null) {
                 remLeft.parent = minNode;
+            }
+
+            //调整minNode
+            minNode.parent = remParent;
+            if (remParent != null) {
+                if (remNode == remParent.left) {
+                    remParent.left = minNode;
+                } else {
+                    remParent.right = minNode;
+                }
+            } else {
+                root = minNode;
             }
 
         } else if (remLeft != null) {
              /*
              * level和height调节
-             * 此时 左分支代替了要移除的节点.所以左子树所有的level--,height保持不变
+             * 此时，因为不存在右子树，所以直接用左子树代替要移除的节点.所以左子树所有的level--,height保持不变
              */
             List<Node<K, V>> leftTree = iteratorTree(true, remNode);
             for (Node<K, V> node : leftTree) {
@@ -176,20 +213,48 @@ public class TreeBalance<K extends Object, V extends Object> {
             } else {
                 root = remLeft;
             }
-
-
+            //remLeft的height无需改变
+            adjustParentHeight(remLeft);
         } else {
             //左右分之都不存在,则只需要处理parent
             if (remParent != null && (remNode == remParent.left)) {
                 remParent.left = null;
+                remParent.leftHeight = 0;
             } else if (remParent != null && (remNode == remParent.right)) {
                 remParent.right = null;
+                remParent.rightHeight = 0;
             } else {
+                //remParent 是null，也就是root节点
                 root = null;
             }
+            //此时不需要调整level，只需要调整height
+            adjustParentHeight(remParent);
         }
 
+        adjustTree();
+        size--;
+    }
 
+
+    /**
+     * 当节点的height发生改变时，调整对应parent...parent的height
+     *
+     * @param child
+     */
+    private void adjustParentHeight(Node child) {
+        if (child == null) {
+            return;
+        }
+        Node parent = child.parent;
+        while (parent != null) {
+            if (child == parent.left) {
+                parent.leftHeight = Math.max(child.leftHeight, child.rightHeight) + 1;
+            } else {
+                parent.rightHeight = Math.max(child.leftHeight, child.rightHeight) + 1;
+            }
+            child = parent;
+            parent = child.parent;
+        }
     }
 
     /**
@@ -265,9 +330,8 @@ public class TreeBalance<K extends Object, V extends Object> {
      * 如果是更新原有节点，也不需要调整
      * 只有新增了叶子节点，并且存在失衡节点才需要调整
      *
-     * @param parent
      */
-    private void adjustTree(Node<K, V> parent) {
+    private void adjustTree() {
         Node<K, V> unBalanceNode = unbalanceNode();
         /*
          * 找到了失衡节点unBalanceNode,需要开始处理调整
@@ -654,23 +718,50 @@ public class TreeBalance<K extends Object, V extends Object> {
 
     /**
      * 找到上一个Node
+     * 也就是找到比自己小的节点
      *
      * @param node
      * @return
      */
     private Node<K, V> prevNode(Node<K, V> node) {
-        if (node.left != null) {
-            return node.left;
-        }
-        Node<K, V> child = node;
-        Node<K, V> parent = node.parent;
+        /*
+        * 找到节点左子树的最大值
+        */
+        Node<K, V> temp = node.left;
+        Node<K, V> tempParent = null;
 
-        while (parent != null && (child != parent.right)) {
-            child = parent;
-            parent = child.parent;
+        while (temp != null) {
+            tempParent = temp;
+            temp = temp.right;
         }
 
-        return parent;
+        /*
+        * 节点左子树为空，所以去寻找节点作为右子树的最大的parent
+        */
+        if (tempParent == null) {
+            temp = node;
+            tempParent = temp.parent;
+            while (tempParent != null && temp == tempParent.left) {
+                temp = tempParent;
+                tempParent = temp.parent;
+            }
+        }
+
+//        if (node.left != null) {
+//            return node.left;
+//        }
+//        Node<K, V> child = node;
+//        Node<K, V> parent = node.parent;
+//
+//        /*
+//        * 节点左子节点不存在，则寻找节点作为某个
+//        */
+//        while (parent != null && (child != parent.right)) {
+//            child = parent;
+//            parent = child.parent;
+//        }
+
+        return tempParent;
     }
 
     /**
@@ -999,6 +1090,11 @@ public class TreeBalance<K extends Object, V extends Object> {
 
 
                 cnt++;
+            }
+            if (curNode != null) {
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ");
+                System.out.println("curNode = " + curNode.toString());
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ");
             }
             return curNode == null ? null : curNode.value;
         }
